@@ -5,7 +5,7 @@ def transcribe_audio(audio_data, file_name):
     """
     Calls the transcription API with the given audio file.
     """
-    url = f"{API_BASE_URL}/transcribe"
+    url = f"{API_BASE_URL}/transcribe/"
     files = {"file": (file_name, audio_data, "audio/mp3" if file_name.endswith(".mp3") else "audio/wav")}
     
     try:
