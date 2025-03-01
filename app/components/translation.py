@@ -5,7 +5,7 @@ def translate_transcript(transcript, source_lang, target_lang):
     """
     Calls the translation API with the given transcript and language options.
     """
-    url = f"{API_BASE_URL}/translate"
+    url = f"{API_BASE_URL}/translate/"
     data = {
         "text": transcript,
         "source_lang": source_lang,
