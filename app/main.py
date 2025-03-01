@@ -9,30 +9,176 @@ st.title("Healthcare Translation Web App with Generative AI")
 
 with st.expander("Project Description"):
     st.markdown("""
-    ## Core Functionalities:
+    # Healthcare Translation Web App 🏥
 
-    Voice-to-Text with Generative AI: Convert spoken input into a text transcript, using AI to enhance transcription accuracy, especially for medical terms.
-    Real-Time Translation and Audio Playback: Provide real-time translation of the transcript with a "Speak" button for audio playback.
-    Mobile-First Design: Ensure the app is responsive and optimized for mobile and desktop use.
+    A FastAPI and Streamlit–based application that provides real-time medical transcription and translation services.
 
-    ## User Interface and Experience:
+    ## Features 🌟
 
-    - **Dual Transcript Display:** Show both original and translated transcripts in real-time.
-    - **Speak Button:** Accessible for audio playback of translated text.
-    - **Language Selection:** Allow users to choose input and output languages easily.
+    - **Audio Input & Processing**
+    - Real-time voice recording via microphone
+    - Support for both WAV and MP3 file uploads
+    - Chunked audio processing for long recordings
+    - Audio duration validation
 
-    ## Technical Requirements:
+    - **Transcription Capabilities**
+    - Speech-to-text conversion with real-time feedback
+    - Medical terminology validation
+    - Grammar and punctuation correction
+    - Support for multiple audio formats
 
-    - **Generative AI Tools:** Use generative AI (e.g., OpenAI API or similar) for both translation and coding assistance.
-    - **Speech Recognition API:** Integrate a speech recognition API (e.g., Web Speech API or Google Speech-to-Text).
-    - **Deployment Platform:** Deploy on a platform like Vercel, V0, or Cursor. Provide a live link.
-    - **Data Privacy and Security:** Ensure patient confidentiality with basic security measures.
+    - **Translation Services**
+    - Multi-language support (11+ languages)
+    - Medical context–aware translations
+    - Real-time translation processing
+    - Customizable source and target language selection
 
-    ## Testing and Quality Assurance:
+    - **Audio Output**
+    - Text-to-speech conversion for translated text
+    - Downloadable translated audio
+    - Audio playback controls
+    - Support for multiple accents
 
-    - Ensure transcription, translation, and audio playback functions work as intended.
-    - Include error handling for transcription or translation failures.
-""")
+    - **User Interface**
+    - Mobile-responsive design
+    - Dual transcript display (original and corrected)
+    - Real-time processing indicators
+    - Intuitive language selection
+
+    ## Architecture 🏗️
+    """)
+    
+    st.image("screenshots/a_diagram.png", caption="Architecture Diagram")
+    st.markdown("""
+    ## Tech Stack 🛠️
+
+    - **Backend Framework**: FastAPI
+    - **AI Services**: 
+    - Google Speech Recognition
+    - Google Gemini AI
+    - **Audio Processing**: pydub
+    - **Frontend: Streamlit**: Streamlit
+    - **Environment**: Python 3.8+
+
+    ## Project Structure 📁
+
+    ```
+    healthcare_translation_web_app/
+    ├── server/
+    │   ├── routes/
+    │   │   ├── transcribe.py      # Audio transcription endpoint
+    │   │   └── translate.py       # Translation endpoint
+    │   └── server.py              # Main server configuration
+    ├── streamlit_app/
+    │   ├── components/
+    │   │   ├── audio_input.py     # Audio input options (record/upload)
+    │   │   ├── transcription.py   # Calls transcription API
+    │   │   └── translation.py     # Calls translation API
+    │   ├── utils/
+    │   │   └── config.py          # Configuration constants (e.g., API_BASE_URL)
+    │   └── app.py                 # Main Streamlit app
+    ├── .env                       # Environment variables
+    └── README.md                  # Project documentation
+    ```
+
+    ## API Endpoints 🔌
+
+    ### Transcription
+
+    ```http
+    POST /transcribe/
+    ```
+
+    - Accepts WAV/MP3 audio files
+    - Returns original and corrected transcripts
+    - Handles medical terminology validation
+
+    ### Translation
+
+    ```http
+    POST /translate/
+    ```
+    - Accepts source language, target language, and text to be translated
+    - Returns the translated text
+
+    ## Setup & Installation 💻
+
+    1. Clone the repository:
+    ```bash
+    git clone https://github.com/usman619/healthcare_web_app
+    cd healthcare_web_app
+    ```
+
+    2. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+    3. Install ffmpeg in conda or on your device
+    ```bash
+    conda install -c conda-forge ffmpeg
+    ```
+    ```bash
+    sudo apt-get update
+    sudo apt-get install ffmpeg
+    ```
+
+    4. Configure environment variables:
+    ```bash
+    cp .env.example .env
+    # Edit .env with your API keys
+    ```
+
+    5. Start the server:
+    ```bash
+    cd server
+    fastapi dev server.py
+    ```
+
+    6. Start the Streamlit app:
+    ```bash
+    cd ../streamlit_app
+    streamlit run app.py
+    ```
+
+    ## Environment Variables 🔐
+
+    Required environment variables in `.env`:
+    - `GEMINI_API_KEY`: Google Gemini AI API key
+    - `API_BASE_URL`: The base URL of your FastAPI server (including the port)
+
+    ## API Documentation 📚
+
+    Access the interactive API documentation:
+    - Swagger UI: `http://localhost:8000/docs`
+    - ReDoc: `http://localhost:8000/redoc`
+
+    ## Deployment 🖥️
+    **FastAPI code**: [healthcare_server](https://github.com/usman619/healthcare_server)
+    **Streamlit code**: [healthcare_streamlit](https://github.com/usman619/healthcare_streamlit)
+
+    **Streamlit frontend Link**: https://healthcare-translation-web-app.streamlit.app/
+
+    I have deployed this project using [Streamlit](https://streamlit.io/) for the frontend and [Railway](https://railway.com/) for the backend.
+
+    Streamlit deployment was simple and but I am having issues with `healthcare_server` deployment. I have tested it by creating docker image and testing it locally and that is working perfectly. The following are the deployment images on `railway.com` and 
+
+    - Railway server deployment:
+
+    """)   
+    st.image("screenshots/railway_deployment_1.png", caption="Railway server deployment")
+
+    st.markdown("- The main issue is `ffmpeg` not working correctly which is resulting in the APIs not working once deployed:")
+    st.image("screenshots/railway_deployment_2.png", caption="Railway server deployment")
+
+    st.markdown("This is the docker image creation and testing locally:")
+    st.image("screenshots/creating_docker_image.png", caption="Creating docker image")
+    st.image("screenshots/running_docker_image.png", caption="Running docker image")
+
+    st.markdown("This is the Healthcare Translation Web App working output:")
+    st.image("screenshots/healtcare_app_1.png", caption="Healthcare Translation Web App working output")
+    st.image("screenshots/healtcare_app_2.png", caption="Healthcare Translation Web App working output")
+    st.image("screenshots/healtcare_app_3.png", caption="Healthcare Translation Web App working output")
 
 # ================== Initialize Session State ==================
 if "original_transcript" not in st.session_state:
@@ -43,23 +189,23 @@ if "translation" not in st.session_state:
     st.session_state.translation = ""
 
 # ================== Upload an Audio File ==================
-st.header("Audio Input")
-upload_audio_button = st.button("Upload an Audio File")
-if upload_audio_button:
-    audio_data, file_name = upload_audio()
+# st.header("Audio Input")
+# upload_audio_button = st.button("Upload an Audio File")
+# if upload_audio_button:
+#     audio_data, file_name = upload_audio()
 
-    if audio_data:
-        st.audio(audio_data, format="audio/wav")
+#     if audio_data:
+#         st.audio(audio_data, format="audio/wav")
 
-        if st.button("Transcribe Audio"):
-            with st.spinner("Transcribing audio... Please wait"):
-                original, checked = transcribe_audio(audio_data, file_name)
+#         if st.button("Transcribe Audio"):
+#             with st.spinner("Transcribing audio... Please wait"):
+#                 original, checked = transcribe_audio(audio_data, file_name)
             
-            st.success("Transcription completed!")
+#             st.success("Transcription completed!")
 
-            # Store in session state
-            st.session_state.original_transcript = original
-            st.session_state.checked_transcript = checked
+#             # Store in session state
+#             st.session_state.original_transcript = original
+#             st.session_state.checked_transcript = checked
 
 # ================== Record a Voice Message ==================
 audio_value = st.audio_input("Record a voice message...")
